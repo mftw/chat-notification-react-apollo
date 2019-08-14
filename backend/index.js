@@ -9,9 +9,11 @@ const resolvers = require('./resolvers/resolvers');
 const { createServer } = require("http");
 // const Pubsub = require("./pubSub");
 const pubsub = require('./pubSub');
+import morgan from "morgan";
 
 
 const app = express();
+app.use(morgan("dev"));
 
 
 // Set up Apollo Server

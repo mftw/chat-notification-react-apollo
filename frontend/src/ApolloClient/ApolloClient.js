@@ -1,7 +1,5 @@
 // import { persistCache } from "anpm pollo-cache-persist";
 import React from "react";
-// import { ApolloProvider, Query } from 'react-apollo';
-// import gql from 'graphql-tag';
 
 import { ApolloClient } from "apollo-client";
 import { ApolloProvider as ApolloProviderHooks } from "@apollo/react-hooks";

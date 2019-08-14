@@ -17,7 +17,7 @@ const typeDefs = gql`
 
   type Mutation  {
     # message(message: InputMessage): Message
-    message(content: String username: String): Message
+    createMessage(content: String username: String): Message
   }
 
   type Message {
@@ -25,6 +25,7 @@ const typeDefs = gql`
     # userId: String
     username: String
     content: String
+    date: String
   }
 
   type RootQuery {

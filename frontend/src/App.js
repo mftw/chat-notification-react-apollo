@@ -3,59 +3,23 @@ import { useSubscription, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import "./App.css";
 
-// const HEARTBEAT_SUBSCRIPTION = gql`
-//   subscription {
-//     heartbeat
-//   }
-// `;
 const MESSAGE_SUBSCRIPTION = gql`
   subscription {
     message {
       username
       content
+      date
     }
   }
 `;
-
-// const MESSAGE_MUTATION = gql`
-//   mutation {
-//     message(message: {
-//       username: $username
-//       content: $content
-//       }) {
-//       username
-//       content
-//     }
-//   }
-// `;
 
 const MESSAGE_MUTATION = gql`
-  mutation {
-    message(content: $Content username: $Username) {
-    # message($content: String! $username: String!) {
-      username
-      content
-    }
+  mutation createMessage($Content: String $Username: String) { 
+    createMessage(content: $Content username: $Username) { 
+      username 
+    } 
   }
 `;
-
-// const MESSAGE_MUTATION = gql`
-//   mutation {
-//   message(message: {username: "tester123" content:"asdfkjasflkasjdhf"}) {
-//     username
-//     content
-//   }
-// }
-// `;
-
-// const MESSAGE_MUTATION = gql`
-//   mutation {
-//     message($message: InputMessage) {
-//       username
-//       content
-//     }
-//   }
-// `;
 
 function App() {
   const { data, loading, error } = useSubscription(MESSAGE_SUBSCRIPTION);
@@ -67,38 +31,29 @@ function App() {
   // Using effect to save older messages
   useEffect(() => {
     if(data) {
-      console.log(data);
+      // console.log(data);
       const localLog = [...chatLog];
-      localLog.push({...data.message, date: new Date()})
+      localLog.push({...data.message})
       setChatLog(localLog);
     }
-  }, [data, setChatLog])
+  }, [data])
 
   function handleSubmitMessage() {
-    console.log(usernameInput, chatInput);
-    addMessage({
-      variables: {
-        message: {
-          Username: usernameInput,
-          Content: chatInput,
-        },
-        Username: usernameInput,
-        Content: chatInput,
-      }
+    if(!usernameInput || !chatInput) return;
 
+    const usernameCheck = usernameInput.trim();
+    const chatInputCheck = chatInput.trim();
+
+    if(usernameCheck.length === 0 || chatInputCheck.length === 0) return;
+
+    addMessage({
+      variables: { 
+        Content: chatInput, 
+        Username: usernameInput 
+      }
     });
     setChatInput("");
   }
-
-  // function handleChange(e) {
-  //   // e.preventDefault();
-  //   e.stopPropagation();
-  //   if(e.target.name === "username") {
-  //     setUsernameInput(e.target.value)
-  //   } else if (e.target.name === "chatinput") {
-  //     setChatInput(e.target.value)
-  //   }
-  // }
 
   return (
     <div className="App">
@@ -109,8 +64,8 @@ function App() {
           <div key={"message" + i}>
             <h2>{message.username}</h2>
             <p>{message.content}</p>
-            <span>{message.date.toLocaleTimeString()}</span> <br/>
-            <span>{message.date.toLocaleDateString()}</span>
+            <span>{new Date( + message.date).toLocaleDateString()}</span> <br/>
+            <span>{new Date( + message.date).toLocaleTimeString()}</span>
             <hr/>
           </div>
         ))}

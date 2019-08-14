@@ -1,34 +1,33 @@
-
-
 module.exports = {
   RootQuery: {},
   Mutation: {
     // mutation: async () => {
 
     // }
-    message: async (_, args, context) => {
-      console.log("asdflsdkfj")
-      // context.pubsub.publish("message", { 
-      //   message: {
-      //     username: args.message.username, 
-      //     content: args.message.content
-      //   }
-      // })
-      // return {
-      //   username: args.message.username, 
-      //   content: args.message.content
-      // }
-      context.pubsub.publish("message", { 
+    createMessage: async (_, args, context) => {
+      const { username, content } = args;
+      
+      if (!username || !content) throw new Error("missing username or content");
+
+      const usernameCheck = username.trim();
+      const contentCheck = content.trim();
+
+      if (usernameCheck.length === 0 || contentCheck.length === 0)
+        throw new Error("missing username or content");
+
+      context.pubsub.publish("message", {
         message: {
-          username: args.username, 
-          content: args.content
-        }
-      })
+          username: username,
+          content: content,
+          date: Date.now()
+        },
+      });
       return {
-        username: args.username, 
-        content: args.content
-      }
-    }
+        username: username,
+        content: content,
+        date: Date.now()
+      };
+    },
   },
   Subscription: {
     heartbeat: {
@@ -45,7 +44,6 @@ module.exports = {
     },
   },
 };
-
 
 // Payload Transformation
 // When using subscribe field, it's also possible to manipulate the event payload before running it through the GraphQL execution engine.
