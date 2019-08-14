@@ -7,15 +7,26 @@ module.exports = {
 
     // }
     message: async (_, args, context) => {
+      console.log("asdflsdkfj")
+      // context.pubsub.publish("message", { 
+      //   message: {
+      //     username: args.message.username, 
+      //     content: args.message.content
+      //   }
+      // })
+      // return {
+      //   username: args.message.username, 
+      //   content: args.message.content
+      // }
       context.pubsub.publish("message", { 
         message: {
-          username: args.message.username, 
-          content: args.message.content
+          username: args.username, 
+          content: args.content
         }
       })
       return {
-        username: args.message.username, 
-        content: args.message.content
+        username: args.username, 
+        content: args.content
       }
     }
   },

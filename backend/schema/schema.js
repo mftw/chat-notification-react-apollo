@@ -16,7 +16,8 @@ const typeDefs = gql`
   }
 
   type Mutation  {
-    message(message: InputMessage): Message
+    # message(message: InputMessage): Message
+    message(content: String username: String): Message
   }
 
   type Message {
