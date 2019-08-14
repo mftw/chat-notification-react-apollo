@@ -28,6 +28,18 @@ const GQL_PORT = process.env.PORT || 4000;
 const httpServer = createServer(app);
 server.installSubscriptionHandlers(httpServer)
 
+setInterval(() => {
+  // console.log(
+  //   "dong dong" +
+  //     Math.random()
+  //       .toString()
+  //       .slice(0, 5)
+  // );
+  pubsub.publish("heartbeat", {
+    heartbeat: "server time: " + new Date().toString(),
+  });
+}, 1000);
+
 
 httpServer.listen({ port: GQL_PORT }, () => {
   console.log(

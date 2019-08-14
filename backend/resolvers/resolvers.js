@@ -1,15 +1,35 @@
 
 
 module.exports = {
-  RootQuery: {
+  RootQuery: {},
+  Mutation: {
+    // mutation: async () => {
 
+    // }
+    message: async (_, args, context) => {
+      context.pubsub.publish("message", { 
+        message: {
+          username: args.message.username, 
+          content: args.message.content
+        }
+      })
+      return {
+        username: args.message.username, 
+        content: args.message.content
+      }
+    }
   },
   Subscription: {
     heartbeat: {
       // subscribe: () => pubsub.asyncIterator("heartbeat"),
       // subscribe: (_, __, { pubsub }) => pubsub.publish("HEARTBEAT", { heartbeat: new Date() }),
       subscribe: (_, __, context) => {
-        return context.pubsub.asyncIterator("heartbeat")
+        return context.pubsub.asyncIterator("heartbeat");
+      },
+    },
+    message: {
+      subscribe: (_, __, context) => {
+        return context.pubsub.asyncIterator("message");
       },
     },
   },

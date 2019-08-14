@@ -5,16 +5,39 @@ const typeDefs = gql`
     test: String
   }
 
+  # type User {
+  #   id: String
+  #   username: String
+  # }
+
+  input InputMessage {
+    username: String
+    content: String
+  }
+
+  type Mutation  {
+    message(message: InputMessage): Message
+  }
+
+  type Message {
+    # id: String
+    # userId: String
+    username: String
+    content: String
+  }
+
   type RootQuery {
     test: Test
   }
 
   type Subscription {
-    heartbeat: String!
+    heartbeat: String
+    message: Message
   }
 
   schema {
     query: RootQuery
+    mutation: Mutation
     subscription: Subscription
   }
 `;
