@@ -23,7 +23,7 @@ const server = new ApolloServer({
 });
 server.applyMiddleware({app});
 
-const GQL_PORT = 4000;
+const GQL_PORT = process.env.PORT || 4000;
 
 const httpServer = createServer(app);
 server.installSubscriptionHandlers(httpServer)
