@@ -57,20 +57,22 @@ function App() {
 
   return (
     <div className="App">
-      <div>{error && "SUBERROR " + error.message}</div>
-      <div>
-        {/* {chatLog.length > 0 && chatLog.map((message, i) => ( */}
-        {chatLog.map((message, i) => (
-          <div key={"message" + i}>
-            <h2>{message.username}</h2>
-            <p>{message.content}</p>
-            <span>{new Date( + message.date).toLocaleDateString()}</span> <br/>
-            <span>{new Date( + message.date).toLocaleTimeString()}</span>
-            <hr/>
-          </div>
-        ))}
+      <div className="chat-container">
+        <div>{error && "SUBERROR " + error.message}</div>
+        <div>
+          {/* {chatLog.length > 0 && chatLog.map((message, i) => ( */}
+          {chatLog.map((message, i) => (
+            <div key={"message" + i}>
+              <h2>{message.username}</h2>
+              <p>{message.content}</p>
+              <span>{new Date( + message.date).toLocaleDateString()}</span> <br/>
+              <span>{new Date( + message.date).toLocaleTimeString()}</span>
+              <hr/>
+            </div>
+          ))}
+        </div>
       </div>
-      <div>
+      <div className="chat-input" >
         <label htmlFor="chatinput">Message</label>
         <input type="text" value={chatInput} name="chatinput" onChange={e => setChatInput(e.target.value)} />
         <button onClick={handleSubmitMessage}>Send</button> <br/>
